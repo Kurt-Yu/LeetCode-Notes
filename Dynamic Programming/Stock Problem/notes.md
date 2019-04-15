@@ -4,8 +4,8 @@
 
 ## Similar Questions
 + [121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
-+ [122. Best Time to Buy and Sell Stock II]()
-+ 123. Best Time to Buy and Sell Stock III
++ [122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/#/description)
++ [123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/#/description)
 + [188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)
 + [309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/#/description)
 + [714. Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/)
@@ -23,13 +23,13 @@ The most straightforward way would be looking at actions taken on the `i-th` day
 Therefore our definition of `T[i][k]` should really be split into two: `T[i][k][0]` and `T[i][k][1]`, where the former denotes the maximum profit at the end of the `i-th` day with at most `k` transactions and with `0` stock in our hand **AFTER** taking the action, while the latter denotes the maximum profit at the end of the `i-th` day with at most `k` transactions and with `1` stock in our hand **AFTER** taking the action. Now the base cases and the recurrence relations can be written as:
 
 Base cases:
-```
+```python
 T[-1][k][0] = 0, T[-1][k][1] = -Infinity
 T[i][0][0] = 0, T[i][0][1] = -Infinity
 ```
 
 Recurrence relations:
-```
+```python
 T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
 T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])
 ```
@@ -50,7 +50,7 @@ The aforementioned six stock problems are classified by the value of `k`, which 
 
 For this case, we really have two unknown variables on each day: `T[i][1][0]` and `T[i][1][1]`, and the recurrence relations say:
 
-```
+```python
 T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])
 T[i][1][1] = max(T[i-1][1][1], T[i-1][0][0] - prices[i]) = max(T[i-1][1][1], -prices[i])
 ```
@@ -74,7 +74,7 @@ Now let's try to gain some insight of the solution above. If we examine the part
 
 If `k` is positive infinity, then there isn't really any difference between `k` and `k - 1`, which implies `T[i-1][k-1][0] = T[i-1][k][0]` and `T[i-1][k-1][1] = T[i-1][k][1]`. Therefore, we still have two unknown variables on each day: `T[i][k][0]` and `T[i][k][1]` with `k = +Infinity`, and the recurrence relations say:
 
-```
+```python
 T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
 T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i]) = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
 ```
@@ -108,7 +108,7 @@ def maxProfit(self, prices: List[int]) -> int:
 
 Similar to the case where `k = 1`, except now we have four variables instead of two on each day: `T[i][1][0]`, `T[i][1][1]`, `T[i][2][0]`, `T[i][2][1]`, and the recurrence relations are:
 
-```
+```python
 T[i][2][0] = max(T[i-1][2][0], T[i-1][2][1] + prices[i])
 T[i][2][1] = max(T[i-1][2][1], T[i-1][1][0] - prices[i])
 T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])
@@ -163,14 +163,14 @@ The solution is similar to the one found in [this post](https://leetcode.com/pro
 
 This case resembles `Case II` very much due to the fact that they have the same `k` value, except now the recurrence relations have to be modified slightly to account for the "**cooldown**" requirement. The original recurrence relations for Case II are given by
 
-```
+```python
 T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
 T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
 ```
 
 But with "cooldown", we cannot buy on the `i-th` day if a stock is sold on the `(i-1)-th` day. Therefore, in the second equation above, instead of `T[i-1][k][0]`, we should actually use `T[i-2][k][0]` if we intend to buy on the `i-th` day. Everything else remains the same and the new recurrence relations are
 
-```
+```python
 T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
 T[i][k][1] = max(T[i-1][k][1], T[i-2][k][0] - prices[i])
 ```
@@ -188,25 +188,25 @@ def maxProfit(self, prices: List[int]) -> int:
     return tik0
 ```
 
-### Case V: `k = +Infinity but with transaction fee`
+### Case VI: `k = +Infinity but with transaction fee`
 
 Again this case resembles `Case II` very much as they have the same `k` value, except now the recurrence relations need to be modified slightly to account for the "**transaction fee**" requirement. The original recurrence relations for `Case II` are given by
 
-```
+```python
 T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
 T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
 ```
 
 Since now we need to pay some fee (denoted as fee) for each transaction made, the profit after buying or selling the stock on the `i-th` day should be subtracted by this amount, therefore the new recurrence relations will be either
 
-```
+```python
 T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
 T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i] - fee)
 ```
 
 or
 
-```
+```python
 T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i] - fee)
 T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
 ```
