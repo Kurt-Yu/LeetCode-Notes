@@ -1,72 +1,126 @@
 # Sliding Window Algorithm 
 
-This algorithm can be used to solve a wide range of problems. Below I share the template code. Reference can be found [here](https://leetcode.com/problems/find-all-anagrams-in-a-string/discuss/92007/Sliding-Window-algorithm-template-to-solve-all-the-Leetcode-substring-search-problem.).
+This algorithm can be used to solve a wide range of problems. Below I share the template code. Reference can be found [here](https://leetcode.com/problems/find-all-anagrams-in-a-string/discuss/92007/Sliding-Window-algorithm-template-to-solve-all-the-Leetcode-substring-search-problem).
 
-Here is the template written in Java:
-```java
-public class Solution {
-    public List<Integer> slidingWindow(String s, String t) {
-        //init a collection or int value to save the result according the question.
-        List<Integer> result = new LinkedList<>();
-        if(t.length() > s.length()) return result;
-        
-        //create a hashmap to save the Characters of the target substring.
-        //(K, V) = (Character, Frequence of the Characters)
-        Map<Character, Integer> map = new HashMap<>();
-        for(char c : t.toCharArray()){
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
-        //maintain a counter to check whether match the target string.
-        int counter = map.size();//must be the map size, NOT the string size because the char may be duplicate.
-        
-        //Two Pointers: begin - left pointer of the window; end - right pointer of the window
-        int begin = 0, end = 0;
-        
-        //the length of the substring which match the target string.
-        int len = Integer.MAX_VALUE; 
-        
-        //loop at the begining of the source string
-        while(end < s.length()){
-            
-            char c = s.charAt(end);//get a character
-            
-            if( map.containsKey(c) ){
-                map.put(c, map.get(c)-1);// plus or minus one
-                if(map.get(c) == 0) counter--;//modify the counter according the requirement(different condition).
-            }
-            end++;
-            
-            //increase begin pointer to make it invalid/valid again
-            while(counter == 0 /* counter condition. different question may have different condition */){
-                
-                char tempc = s.charAt(begin);//***be careful here: choose the char at begin pointer, NOT the end pointer
-                if(map.containsKey(tempc)){
-                    map.put(tempc, map.get(tempc) + 1);//plus or minus one
-                    if(map.get(tempc) > 0) counter++;//modify the counter according the requirement(different condition).
-                }
-                
-                /* save / update(min/max) the result if find a target*/
-                // result collections or result int value
-                
-                begin++;
-            }
-        }
-        return result;
-    }
-}
-```
+## Similar Questions
++ [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
++ [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
++ [30. Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
++ [159. Longest Substring with At Most Two Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/)
++ [438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+
+## Template
 
 This the template written in Python:
 
-
 ```python
-def solution:
-    count = collections.Counter(t)
+# s is the source string, t is the target string
+def solution(s: str, t: str):
+    # init a list or int value to save the result according the question.
+    if len(t) > len(s): return []
+    res = []
 
-    size = len(count)
-    start, end = 0, 0
+    # create a dict to store the characters of target string
+    d = collections.Counter(t)
+
+    # maintain a counter to check whether match the target string
+    size = len(d)
+    i, j = 0, 0
+
+    # the length of substring which matches the target string
+    lenght = float('inf)
+
+    while j < len(s):
+        if s[j] in d:
+            d[s[j]] -= 1 # plus or minus one
+            if d[s[j]] == 0: size -= 1 # modify the counter according the requirement(different condition).
+        j += 1
+
+        # increase begin pointer to make it invalid/valid again
+        while size == 0:
+            if s[i] in d:
+                d[s[i]] += 1  # plus or minus one
+                if d[s[i]] > 0: size += 1 # modify the counter according the requirement(different condition).
+
+            # save / update(min/max) the result if find a target*/
+            #  result collections or result int value
+        
+            i += 1
     
+    return res
+```
 
+## Using template to solve above questions
+
+### [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
+```python
+def minWindow(self, s: str, t: str) -> str:
+    if len(t) > len(s): return ""
+
+    i, j = 0, 0
+    d = collections.Counter(t)
+    size = len(d)
+    head = 0
+    length = float('inf')
+    
+    while j < len(s):
+        if s[j] in d:
+            d[s[j]] -= 1
+            if d[s[j]] == 0: size -= 1 
+        j += 1
+        
+        while size == 0:
+            if s[i] in d:
+                d[s[i]] += 1
+                if d[s[i]] > 0: size += 1
+                
+            if j - i < length:
+                length = j - i
+                head = i
+            
+            i += 1
+    return s[head:head + length] if length != float('inf') else ""
+```
+
+### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+```python
+def lengthOfLongestSubstring(self, s: str) -> int:
+    i, j = 0, 0
+    d = {}
+    counter = 0
+    res = 0
+    
+    while j < len(s):
+        d[s[j]] = d.get(s[j], 0) + 1
+        if d[s[j]] > 1: counter += 1
+        j += 1
+        
+        while counter > 0:
+            if d[s[i]] > 1: counter -= 1
+            d[s[i]] -= 1
+            i += 1
+        res = max(res, j - i)
+    
+    return res
+```
+
+### [30. Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
+```python
+"""
+TODO
+"""
+```
+
+### [159. Longest Substring with At Most Two Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/)
+```python
+"""
+TODO
+"""
+```
+
+
+### [438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+```python
 
 ```
 
