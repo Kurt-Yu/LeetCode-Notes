@@ -6,7 +6,7 @@ The idea is that, start from a cell that has a `1` in it, modify it to `0`, then
 
 ## Basic Template
 
-[Leetcode 200](https://leetcode.com/problems/number-of-islands/)
+### [Leetcode 200](https://leetcode.com/problems/number-of-islands/)
 ```python
 def numIslands(self, grid: List[List[str]]) -> int:
     def floodfill(i, j):
@@ -32,10 +32,24 @@ def numIslands(self, grid: List[List[str]]) -> int:
                 floodfill(i, j)
     return res
 ```
+Anther short but a little bit expensive way is to use `map`:
+
+```python
+def numIslands(self, grid: List[List[str]]) -> int:
+    def helper(i, j):
+        if 0 <= i < len(grid) and 0 <= j < len(grid[0]) and grid[i][j] == '1':
+            grid[i][j] = '0'
+            list(map(helper, (i+1, i-1, i, i), (j, j, j+1, j-1)))
+            return 1
+        return 0
+    return sum(helper(i, j) for i in range(len(grid)) for j in range(len(grid[i])))
+```
+Notice that in `python 3`, `map` function just returns a map object, instead of a iterable. If we want to actually evaluate the function, we need add a `list` in front of it. Though this might take more runtime.
+
 
 Flood Fill with helper `visited` to store information that whether is cell is visited or not:
 
-[Leetcode 733](https://leetcode.com/problems/flood-fill/)
+### [Leetcode 733](https://leetcode.com/problems/flood-fill/)
 ```python
 def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
     def helper(i, j, target):

@@ -1,3 +1,3 @@
 # LeetCode Notes
 
-This is my notes for solving leetcode problems.
+This repository includes some notes about typical algorithmatic questions I found on Leetcode.

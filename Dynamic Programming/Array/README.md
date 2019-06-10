@@ -25,8 +25,7 @@ def rob(self, nums: List[int]) -> int:
 
 
 # Method 2: recursive solution with memo (top-up)
-# Space complexity: O(n) because of recursive stack
-# Time complexity: O(n)
+# Space & Time: O(n)
 def rob(self, nums: List[int]) -> int:
     memo = {}
     def helper(nums, i):
@@ -39,5 +38,24 @@ def rob(self, nums: List[int]) -> int:
     return helper(nums, len(nums) - 1)
 
 
+# Method 2: recursive solution with memo (bottom-up)
+# Space & Time: O(n)
+def rob(self, nums: List[int]) -> int:
+    if not nums: return 0
+    memo = [0] * (len(nums) + 1)
+    memo[1] = nums[0]
+    for i in range(2, len(nums) + 1):
+        memo[i] = max(memo[i - 1], memo[i - 2] + nums[i - 1])
+    return memo[-1]
 
+
+# Method 3: Notice that only the last two variables are useful to us
+# Thus we can throw away previous variable to save space
+# `temp`: temp[0]: value when we don't rob, temp[1]: value when we rob
+# Time: O(n), Space: O(1)
+def rob(self, nums: List[int]) -> int:
+    temp = [0, 0]
+    for n in nums:
+        temp = [max(temp), n + temp[0]]
+    return max(temp)
 ```
