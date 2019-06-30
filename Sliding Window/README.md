@@ -85,22 +85,15 @@ def minWindow(self, s: str, t: str) -> str:
 ### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
 ```python
 def lengthOfLongestSubstring(self, s: str) -> int:
-    i, j = 0, 0
-    d = {}
-    counter = 0
+    seen = {}
+    i = j = 0
     res = 0
-    
     while j < len(s):
-        d[s[j]] = d.get(s[j], 0) + 1
-        if d[s[j]] > 1: counter += 1
+        if s[j] in seen:
+            i = max(i, seen[s[j]] + 1)
+        seen[s[j]] = j
+        res = max(res, j - i + 1)
         j += 1
-        
-        while counter > 0:
-            if d[s[i]] > 1: counter -= 1
-            d[s[i]] -= 1
-            i += 1
-        res = max(res, j - i)
-    
     return res
 ```
 
