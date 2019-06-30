@@ -137,8 +137,69 @@ def mergeKLists(self, lists: List[ListNode]) -> ListNode:
 
 One thing that worth note here is that in `Python 3`, the comparision operator `<, >` does not support equal values in terms of priorities. If we were only to store `(node.val, node)` to the heap, that means when there is a tie, the internal comparision operator will try to compare the actual `node`. But a `node` object is not comparable. That's why we added a index   `i` in the heap, when there is a tie, we then use `i` to compare.
 
+## Sort Linked List
 
+### [Leetcode 148. Sort List](https://leetcode.com/problems/sort-list/)
+> Sort a linked list in O(n log n) time using constant space complexity.
 
+Solution: Apply merge sort to original list. This is a combination of merge and two pointers.
+```python
+def sortList(self, head: ListNode) -> ListNode:
+    if not head or not head.next: return head
+    curr, slow, fast = None, head, head
+    while fast and fast.next:
+        curr = slow
+        slow = slow.next
+        fast = fast.next.next
+    curr.next = None
+    
+    left,right = self.sortList(head), self.sortList(slow)
+    res = self.merge(left, right)
+    return res
 
+def merge(self, left, right):
+    curr = res= ListNode(0)
+    while left and right:
+        if left.val < right.val:
+            curr.next = left
+            left = left.next
+        else:
+            curr.next = right
+            right = right.next
+        curr = curr.next
+    curr.next = left or right
+    
+    return res.next
+```
 
+## Remove Node
 
+### [Leetcode 19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
+> Given a linked list, remove the n-th node from the end of list and return its head.
+
+Solution: use two pointers to find the total number of nodes in this list. Then remove the node based on relation between `n` and `count`. This is a one pass solution.
+
+```python
+def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+    count = 0
+    slow, fast = head, head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        count += 1
+    
+    total = count * 2 if not fast else count * 2 + 1
+    if n == total: return head.next
+    n = total - n
+    
+    if n > count:
+        for _ in range(n - count - 1):
+            slow = slow.next
+        slow.next = slow.next.next
+    else:
+        curr = head
+        for _ in range(n - 1):
+            curr = curr.next
+        curr.next = curr.next.next
+    return head
+```

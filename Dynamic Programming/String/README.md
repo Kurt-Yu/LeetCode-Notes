@@ -1,9 +1,21 @@
 # String Related DP Problems
 
-+ [Leetcode 583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings/)
+## [Leetcode 139. Word Break](https://leetcode.com/problems/word-break/)
+> Given a non-empty string `s` and a dictionary `wordDict` containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
 
-## 583. Delete Operation for Two Strings
-**Idea**: The idea is the same as *Longest Common Subsequence* problem, use a 2d array and dynamically expend the longest substring so far.
+Solution: `dp[i]` denotes whether `s[:i]` can be built.
+```python
+def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+    words = set(wordDict)
+    dp = [True]
+    for i in range(1, len(s) + 1):
+        dp.append(any(dp[j] and s[j:i] in words for j in range(i)))
+    return dp[-1]
+```
+
+## [Leetcode 583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings/)
+
+**Solution**: The idea is the same as *Longest Common Subsequence* problem, use a 2d array and dynamically expend the longest substring so far.
 
 ```python
 def minDistance(self, word1: str, word2: str) -> int:
