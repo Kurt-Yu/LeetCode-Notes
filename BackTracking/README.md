@@ -6,7 +6,7 @@ Backtracking algorithm is often used together with recursive, mainly dealing wit
 + [Leetcode 46. Permutations](https://leetcode.com/problems/permutations/)
 
 
-## Leetcode 78. Subsets
+## [Leetcode 78. Subsets](https://leetcode.com/problems/subsets/)
 Given a set of distinct integers, nums, return all possible subsets (the power set).
 ```python
 class Solution:

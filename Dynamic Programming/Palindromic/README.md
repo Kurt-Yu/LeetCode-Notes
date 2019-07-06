@@ -37,3 +37,19 @@ def longestPalindrome(self, S: str) -> str:
 ```
 
 The basic idea is that `dp(i, j)` represents whether sub-string `S[i:j + 1]` is a palindromic or not. We can derive the following recursive relation: `dp(i, j) = dp(i + 1, j - 1) and S[i] == S[j]`. 
+
+## [Leetcode 647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)
+> Given a string, your task is to count how many palindromic substrings in this string.
+
+Solution: this problem is essentially the same as the above one. We count the number of palindromic instead of storing the longest one.
+```python
+def countSubstrings(self, S: str) -> int:
+    res = 0
+    dp = [[False] * len(S) for _ in range(len(S))]
+    for i in range(len(S) - 1, -1, -1):
+        for j in range(i, len(S)):
+            dp[i][j] = S[i] == S[j] and (j - i < 3 or dp[i + 1][j - 1])
+            if dp[i][j]: res += 1
+    return res
+```
+

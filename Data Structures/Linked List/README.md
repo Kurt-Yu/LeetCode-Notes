@@ -203,3 +203,74 @@ def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         curr.next = curr.next.next
     return head
 ```
+
+## Loop / Cycle (Two Pointers)
+
+This section contains some typical problems that can be solved by two poiters (slow & fast). It is a useful technique when you want to deal with cycles and loops in a linked list.
+
+### [Leetcode 160. Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/)
+> Write a program to find the node at which the intersection of two singly linked lists begins.
+
+```python
+def getIntersectionNode(self, headA, headB):
+    if not headA or not headB: return None
+
+    # If pointer points to the end of a linked list, just switch to the other list
+    # Terminate condition: either two pointers points to None, or they are the same
+    pa, pb = headA, headB
+    while pa is not pb:
+        pa = headB if not pa else pa.next
+        pb = headA if not pb else pb.next
+
+    return pa
+```
+
+### [Leetcode 287. Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/)
+> Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+
+```python
+def findDuplicate(self, nums):
+    if not nums: return 0
+    
+    slow, fast = nums[0], nums[nums[0]]
+    while slow != fast:
+        slow =  nums[slow]
+        fast = nums[nums[fast]]
+    
+    fast = 0
+    while fast != slow:
+        fast, slow = nums[fast], nums[slow]
+    return fast
+```
+
+### [Leetcode 141. Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
+> Given a linked list, determine if it has a cycle in it.
+
+```python    
+def hasCycle(self, head):
+    if not head: return False
+    slow, fast = head, head
+    while fast and fast.next:
+        slow, fast = slow.next, fast.next.next
+        if slow is fast: return True
+    return Falsepython
+```
+
+### [Leetcode 142. Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
+> Given a linked list, return the node where the cycle begins. If there is no cycle, return `null`. 
+ 
+```python
+def detectCycle(self, head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            break
+
+    if not fast or not fast.next: return None
+    while head != slow:
+        slow = slow.next
+        head = head.next
+    return head
+```
