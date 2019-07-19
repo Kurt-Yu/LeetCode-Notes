@@ -5,7 +5,7 @@ Binary Search usually used to solve this kind of question: Given a sorted (in as
 The idea is simple: check the middle element of array and compare it with target, is target is smaller, search the left half, if target is larger, then search the right half. If equal, which means we found the target, then just return the index. If target doesn't exist in array, we return -1.
 
 ## Basic Template
-[Leetcode 704](https://leetcode.com/problems/binary-search/):
+### [Leetcode 704. Binary Search](https://leetcode.com/problems/binary-search/):
 ```python
 # iterative solution (48 ms):
 
@@ -41,7 +41,7 @@ def search(self, nums: List[int], target: int) -> int:
 ```
 
 ## Variants
-[Leetcode 34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/): Find First and Last Position of Element in Sorted Array
+### [Leetcode 34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/): Find First and Last Position of Element in Sorted Array
 
 We just need to change the above template a little bit, since we ar looking for first and last position of target, then just do two binary search.
 
@@ -67,7 +67,7 @@ def searchRange(self, nums: List[int], target: int) -> List[int]:
     return [left, right] if left <= right else [-1, -1]
 ``` 
 
-[Leetcode 981](https://leetcode.com/problems/time-based-key-value-store/): Time Based Key-Value Store
+### [Leetcode 981](https://leetcode.com/problems/time-based-key-value-store/): Time Based Key-Value Store
 
 One thing that worth mention is that python has a build-in library for dealing with sorted array (internally implemented using binary search) called `bisect`.
 
@@ -89,7 +89,7 @@ class TimeMap:
 
 ## Find Peek Element
 
-[Leetcode 852](https://leetcode.com/problems/peak-index-in-a-mountain-array/): Peak Index in a Mountain Array
+### [Leetcode 852](https://leetcode.com/problems/peak-index-in-a-mountain-array/): Peak Index in a Mountain Array
 
 `O(N)` solution: find the index of largest element:
 ```python
@@ -110,7 +110,7 @@ def peakIndexInMountainArray(self, A: List[int]) -> int:
         else: return mid
 ```
 
-[Leetcode 162](https://leetcode.com/problems/find-peak-element/): Find Peak Element
+### [Leetcode 162](https://leetcode.com/problems/find-peak-element/): Find Peak Element
 
 ```python
 def findPeakElement(self, nums: List[int]) -> int:
@@ -126,7 +126,7 @@ def findPeakElement(self, nums: List[int]) -> int:
 
 ## Rotated Array
 
-[Leetcode 33](https://leetcode.com/problems/search-in-rotated-sorted-array/): Search in Rotated Sorted Array
+### [Leetcode 33](https://leetcode.com/problems/search-in-rotated-sorted-array/): Search in Rotated Sorted Array
 
 
 ```python
@@ -145,7 +145,7 @@ def search(self, nums: List[int], target: int) -> int:
     return -1
 ```
 
-[Leetcode 81](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/): Search in Rotated Sorted Array II
+### [Leetcode 81](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/): Search in Rotated Sorted Array II
 
 Almost the same as last question, now we had duplicates in array, so we need to get rid of the duplicates by a `while` loop, see line 6-7.
 
@@ -175,7 +175,7 @@ def search(self, nums: List[int], target: int) -> bool:
     return False
 ```
 
-[Leetcode 153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/): Find Minimum in Rotated Sorted Array
+### [Leetcode 153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/): Find Minimum in Rotated Sorted Array
 
 ```python
 def findMin(self, nums: List[int]) -> int:
@@ -189,7 +189,7 @@ def findMin(self, nums: List[int]) -> int:
     return nums[low]
 ```
 
-[Leetcode 154](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/): Find Minimum in Rotated Sorted Array II
+### [Leetcode 154](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/): Find Minimum in Rotated Sorted Array II
 
 ```python
 def findMin(self, nums: List[int]) -> int:
@@ -207,7 +207,7 @@ def findMin(self, nums: List[int]) -> int:
 
 ## Search 2d Matrix
 
-[Leetcode 74](https://leetcode.com/problems/search-a-2d-matrix/): Search a 2D Matrix
+### [Leetcode 74](https://leetcode.com/problems/search-a-2d-matrix/): Search a 2D Matrix
 
 When searching in a 2d matrix, the idea is that: not treat it as a matrix, instead, treat it as a "large" sorted list. The index can be easily calculated with `//` and `%`.
 
@@ -227,7 +227,7 @@ def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
     return False
 ```
 
-[Leetcode 240](https://leetcode.com/problems/search-a-2d-matrix-ii/): Search a 2D Matrix II
+### [Leetcode 240](https://leetcode.com/problems/search-a-2d-matrix-ii/): Search a 2D Matrix II
 
 To be precise, this problem is not a binary search problem. I put it here just because it's the follow question of last one. The idea is this: we start from the right top corner, if target is smaller than current element, then we search for current row. If not, then update row index to next level.
 
