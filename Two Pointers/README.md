@@ -45,6 +45,8 @@ def validMountainArray(self, A: List[int]) -> bool:
 ## [Leetcode 42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
 > Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
 
+This solution came from [this post](https://leetcode.com/problems/trapping-rain-water/discuss/17391/Share-my-short-solution.). The basic idea was to use two pointers, starts from the begining and the end, keep track of `leftmax` and `rightmax`. Base on which one is greater, we update the corresponding pointer. And we store `current_max - current_actual_value` (like a bucket).
+
 ```python
 def trap(self, height: List[int]) -> int:
     i, j = 0, len(height) - 1
@@ -96,4 +98,3 @@ def threeSum(self, nums: List[int]) -> List[List[int]]:
                 j, k = j + 1, k - 1
     return res
 ```
-

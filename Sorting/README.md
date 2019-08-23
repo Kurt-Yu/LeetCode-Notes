@@ -56,7 +56,8 @@ def helper(nums, start, end):
     helper(nums, pivot + 1, end)
 
 def quicksort(nums):
-    return helper(nums, 0, len(nums) - 1)
+    helper(nums, 0, len(nums) - 1)
+    print(nums)    # since this is a in-place algorithms, it does not return anything
 ```
 
 ## Selection Sort
@@ -74,7 +75,7 @@ def selection_sort(nums):
 ```
 
 ## Insertion Sort
-**Idea**: Maintains a sorted sublist in the lower positions of the list. Each new item is then “inserted” back into the previous sublist such that the sorted sublist is one item larger.
+**Idea**: Maintain a sorted sublist in the lower positions of the list. Each new item is then “inserted” back into the previous sublist such that the sorted sublist is one item larger.
 
 ```python
 def insertion_sort(nums):
@@ -108,4 +109,28 @@ def merge(left, right):
     res.extend(left + right)
 
     return res
+```
+
+## Heap Sort
+```Python
+def heapify(nums, n, i):
+    largest = i
+    left, right = 2 * i + 1, 2 * i + 2
+    if left < n and nums[left] > nums[largest]:
+        largest = left
+    if right < n and nums[right] > nums[largest]:
+        largest = right
+    if largest != i:
+        nums[i], nums[largest] = nums[largest], nums[i]
+        heapify(nums, n, largest)
+
+def heapsort(nums):
+    n = len(nums)
+
+    for i in range(n, 0, -1):
+        heapify(nums, n, i)
+ 
+    for i in range(n - 1, 0, -1):
+        nums[i], nums[0] = nums[0], nums[i]  
+        heapify(nums, i, 0)
 ```

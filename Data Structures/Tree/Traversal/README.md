@@ -129,3 +129,39 @@ def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
     return root
 ```
 
+## Other Problems that can be solved by DFS or BFS
+### [Leetcode 17. Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/)
+> Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
+
+**Idea:** This is essentially an BFS problem. We starts from an empty string `''` (consider it as a root node for some tree), then for each digit, it has three or four digits assocaited with it (consider them as three or four children nodes of root). Once we have this tree-like model in our head, we could expand our string level by level.
+
+```python
+def letterCombinations(self, digits: str) -> List[str]:
+    if not digits: return []
+    
+    mapping = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl', '6':'mno', '7':'pqrs', '8':'tuv', '9':'wxyz'}
+    res = ['']
+    for digit in digits:
+        current = []
+        for letter in mapping[digit]:
+            for temp in res:
+                current.append(temp + letter)
+        res = current
+    return res
+```
+
+### [Leetcode 114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)
+> Given a binary tree, flatten it to a linked list in-place.
+
+**Idea:** Do a `reversed` postorder while updating current node. This is essentially build the whole tree from right-bottom-up.
+```Python
+def flatten(self, root: TreeNode) -> None:
+    self.prev = None
+    def postorder(node):
+        if not node: return None
+        postorder(node.right)
+        postorder(node.left)
+        node.right, node.left = self.prev, None
+        self.prev = node
+    postorder(root)
+```

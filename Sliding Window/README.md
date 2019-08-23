@@ -55,31 +55,28 @@ def solution(s: str, t: str):
 ### [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
 ```python
 def minWindow(self, s: str, t: str) -> str:
-    if len(t) > len(s): return ""
-
-    i, j = 0, 0
-    d = collections.Counter(t)
-    size = len(d)
-    head = 0
-    length = float('inf')
+    i = j = 0
+    start = end = 0
+    need = collections.Counter(t)
+    size = len(need)
     
     while j < len(s):
-        if s[j] in d:
-            d[s[j]] -= 1
-            if d[s[j]] == 0: size -= 1 
+        if s[j] in need:
+            need[s[j]] -= 1
+            if need[s[j]] == 0: size -= 1
         j += 1
         
         while size == 0:
-            if s[i] in d:
-                d[s[i]] += 1
-                if d[s[i]] > 0: size += 1
+            if s[i] in need:
+                need[s[i]] += 1
+                if need[s[i]] > 0: size += 1
+                    
+            if end == 0 or j - i < end - start:
+                start, end = i, j
                 
-            if j - i < length:
-                length = j - i
-                head = i
-            
             i += 1
-    return s[head:head + length] if length != float('inf') else ""
+            
+    return s[start:end]
 ```
 
 ### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
