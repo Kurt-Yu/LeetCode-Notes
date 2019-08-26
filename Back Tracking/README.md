@@ -12,7 +12,7 @@ Given a set of distinct integers, nums, return all possible subsets (the power s
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         res = []
-        nums.sort()
+        nums.sort()     # unnecessary
         self.backtrack(res, [], nums, 0)
         return res
     

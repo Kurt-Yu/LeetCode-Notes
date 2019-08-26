@@ -38,6 +38,26 @@ def longestPalindrome(self, S: str) -> str:
 
 The basic idea is that `dp(i, j)` represents whether sub-string `S[i:j + 1]` is a palindromic or not. We can derive the following recursive relation: `dp(i, j) = dp(i + 1, j - 1) and S[i] == S[j]`. 
 
+## [Leetcode 516. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
+> Given a string s, find the longest palindromic subsequence's length in s. You may assume that the maximum length of s is 1000.
+
+**Solution:** The idea is essentially the same as the above question. Instead store `True` or `False` in `dp` table to present weither string `s[i:j + 1]` is a palindromic, we store the longest length of the palindromic inside substring `s[i:j + 1]`.
+
+```Python
+def longestPalindromeSubseq(self, s: str) -> int:
+    dp = [[0] * len(s) for _ in range(len(s))]
+    res = 0
+    for i in range(len(s) - 1, -1, -1):
+        for j in range(i, len(s)):
+            if i == j: dp[i][j] = 1
+            elif j - i == 1: dp[i][j] = 2 if s[i] == s[j] else 1
+            elif s[i] == s[j]: dp[i][j] = dp[i + 1][j - 1] + 2
+            else: dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])
+            
+            res = max(res, dp[i][j])
+    return res
+```
+
 ## [Leetcode 647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)
 > Given a string, your task is to count how many palindromic substrings in this string.
 
