@@ -35,3 +35,15 @@ Count the number of ones in the binary representation of the given number
 
 ```
 
+
+### [Leetcode 338. Counting Bits](https://leetcode.com/problems/counting-bits/)
+> Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+
+**Solution:** Based on this equation: `f[i] = f[i // 2] + i % 2`
+```python
+def countBits(self, num):
+    res = [0] * (num + 1)
+    for i in range(1, num + 1):
+        res[i] = res[i >> 1] + (i & 1)
+    return res
+```

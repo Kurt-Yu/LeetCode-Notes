@@ -5,7 +5,56 @@ Here is a typical problem that can be solved using two pointers: Given an array 
 
 If we simply calculate the square of each number, then sort the list, that would be `O(nlogn)` time complexity. By comparing the left and right element of list, we can reduce the time complexity to `O(n)`
 
-## [Leetcode 977](https://leetcode.com/problems/squares-of-a-sorted-array/)
+## Two Pointers in Linked List
+
+### [Leetcode 142. Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
+> Given a linked list, return the node where the cycle begins. If there is no cycle, return `null`. 
+ 
+```python
+def detectCycle(self, head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            break
+
+    if not fast or not fast.next: return None
+    while head != slow:
+        slow = slow.next
+        head = head.next
+    return head
+```
+
+### [Leetcode234. Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/)
+> Given a singly linked list, determine if it is a palindrome.
+
+> Could you do it in O(n) time and O(1) space?
+```python
+def isPalindrome(self, head: ListNode) -> bool:
+    slow, fast = head, head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    
+    temp = self.reverse(slow)
+    while temp and head:
+        if temp.val != head.val: return False
+        temp = temp.next
+        head = head.next
+    return True
+
+def reverse(self, node):
+    prev, curr = None, node
+    while curr:
+        next = curr.next
+        curr.next = prev
+        prev, curr = curr, next
+    return prev
+```
+
+## Two Pointers in Array
+### [Leetcode 977](https://leetcode.com/problems/squares-of-a-sorted-array/)
 ```python
 def sortedSquares(self, A: List[int]) -> List[int]:
     res = []
@@ -21,8 +70,9 @@ def sortedSquares(self, A: List[int]) -> List[int]:
     return res
 ```
 
-## [Leetcode 941. Valid Mountain Array](https://leetcode.com/problems/valid-mountain-array/)
+### [Leetcode 941. Valid Mountain Array](https://leetcode.com/problems/valid-mountain-array/)
 > Given an array A of integers, return true if and only if it is a valid mountain array. Recall that A is a mountain array if and only if:
+
 ```
 A.length >= 3
 There exists some i with 0 < i < A.length - 1 such that:
@@ -30,7 +80,7 @@ A[0] < A[1] < ... A[i-1] < A[i]
 A[i] > A[i+1] > ... > A[B.length - 1]
 ```
 
-Idea: use two pointers `i & j`, starting from the begining and the end, update each pointer if the next one is strictly larger than current. The terminate condition would be `0 < i == j < len(A) - 1`
+**Idea**: use two pointers `i & j`, starting from the begining and the end, update each pointer if the next one is strictly larger than current. The terminate condition would be `0 < i == j < len(A) - 1`
 
 ```python
 def validMountainArray(self, A: List[int]) -> bool:
@@ -42,7 +92,7 @@ def validMountainArray(self, A: List[int]) -> bool:
     return 0 < i == j < len(A) - 1
 ```
 
-## [Leetcode 42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
+### [Leetcode 42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
 > Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
 
 This solution came from [this post](https://leetcode.com/problems/trapping-rain-water/discuss/17391/Share-my-short-solution.). The basic idea was to use two pointers, starts from the begining and the end, keep track of `leftmax` and `rightmax`. Base on which one is greater, we update the corresponding pointer. And we store `current_max - current_actual_value` (like a bucket).
@@ -64,7 +114,7 @@ def trap(self, height: List[int]) -> int:
     return res
 ```
 
-## [Leetcode 15. 3Sum](https://leetcode.com/problems/3sum/)
+### [Leetcode 15. 3Sum](https://leetcode.com/problems/3sum/)
 > Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
 
 > The solution set must not contain duplicate triplets.

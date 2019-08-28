@@ -90,3 +90,73 @@ def rob(self, nums: List[int]) -> int:
         temp = [max(temp), n + temp[0]]
     return max(temp)
 ```
+
+## [Leetcode 337. House Robber III](https://leetcode.com/problems/house-robber-iii/)
+> The thief has found himself a new place for his thievery again. There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that "all houses in this place forms a binary tree". It will automatically contact the police if two directly-linked houses were broken into on the same night.
+
+> Determine the maximum amount of money the thief can rob tonight without alerting the police.
+
+**Solution:** 
+`rob(root) = max(rob(root.left) + rob(root.right), root.val + rob(root.left.left) + rob(root.left.right) + rob(root.right.left) + rob(root.right.right))`. We need to check if `root.left & root.right` are `None` as we make progress. The rest is the same as above: use `memo` to store cache.
+
+```python
+def rob(self, root):  
+    memo = {}
+    
+    def helper(node):
+        if not node: return 0
+        if node in memo: return memo[node]
+        
+        val = 0
+        if node.left:
+            val += helper(node.left.left) + helper(node.left.right)
+        if node.right:
+            val += helper(node.right.left) + helper(node.right.right)
+        
+        res = max(node.val + val, helper(node.left) + helper(node.right))
+        memo[node] = res
+        return res
+    
+    return helper(root)
+```
+
+**Method 2:** This method use the same idea of method 3 of above problem. We keep track of an array with two elements. The first element represents the max value if we rob current node, the second element represents the max value if we don't rob current node. This way, we won't lost information as we recursively call our function and there is no need to store internal result to a cache.
+
+```Python
+def rob(self, root):  
+    
+    def helper(node):
+        if not node: return [0, 0]
+        left, right = helper(node.left), helper(node.right)
+        
+        res = [0, 0]
+        res[0] = max(left) + max(right)
+        res[1] = node.val + left[0] + right[0]
+        return res
+    
+    return max(helper(root))
+```
+
+## [Leetcode 494. Target Sum](https://leetcode.com/problems/target-sum/)
+> You are given a list of non-negative integers, a1, a2, ..., an, and a target, S. Now you have 2 symbols + and -. For each integer, you should choose one from + and - as its new symbol.
+
+> Find out how many ways to assign symbols to make sum of integers equal to target S.
+
+This is a pretty simple problem, the straightforward solution with memorization:
+```Python
+def findTargetSumWays(self, nums, S):
+    memo = {}
+    
+    def helper(i, S):
+        if i >= len(nums): return 0
+        if i == len(nums) - 1:
+            if nums[i] == S or 0 - nums[i] == S:
+                return 1 if S != 0 else 2
+            return 0
+        if (i, S) in memo: return memo[(i, S)]
+        res = helper(i + 1, S - nums[i]) + helper(i + 1, S + nums[i])
+        memo[(i, S)] = res
+        return res
+        
+    return helper(0, S)
+```

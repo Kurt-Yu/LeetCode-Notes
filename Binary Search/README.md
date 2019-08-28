@@ -41,7 +41,7 @@ def search(self, nums: List[int], target: int) -> int:
 ```
 
 ## Variants
-### [Leetcode 34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/): Find First and Last Position of Element in Sorted Array
+### [Leetcode 34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
 We just need to change the above template a little bit, since we ar looking for first and last position of target, then just do two binary search.
 
@@ -67,7 +67,7 @@ def searchRange(self, nums: List[int], target: int) -> List[int]:
     return [left, right] if left <= right else [-1, -1]
 ``` 
 
-### [Leetcode 981](https://leetcode.com/problems/time-based-key-value-store/): Time Based Key-Value Store
+### [Leetcode 981. Time Based Key-Value Store](https://leetcode.com/problems/time-based-key-value-store/)
 
 One thing that worth mention is that python has a build-in library for dealing with sorted array (internally implemented using binary search) called `bisect`.
 
@@ -89,7 +89,7 @@ class TimeMap:
 
 ## Find Peek Element
 
-### [Leetcode 852](https://leetcode.com/problems/peak-index-in-a-mountain-array/): Peak Index in a Mountain Array
+### [Leetcode 852. Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/)
 
 `O(N)` solution: find the index of largest element:
 ```python
@@ -110,7 +110,7 @@ def peakIndexInMountainArray(self, A: List[int]) -> int:
         else: return mid
 ```
 
-### [Leetcode 162](https://leetcode.com/problems/find-peak-element/): Find Peak Element
+### [Leetcode 162. Find Peak Element](https://leetcode.com/problems/find-peak-element/)
 
 ```python
 def findPeakElement(self, nums: List[int]) -> int:
@@ -126,8 +126,8 @@ def findPeakElement(self, nums: List[int]) -> int:
 
 ## Rotated Array
 
-### [Leetcode 33](https://leetcode.com/problems/search-in-rotated-sorted-array/): Search in Rotated Sorted Array
-
+### [Leetcode 33 Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+> Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. You are given a target value to search. If found in the array return its index, otherwise return -1.
 
 ```python
 def search(self, nums: List[int], target: int) -> int:
@@ -145,7 +145,7 @@ def search(self, nums: List[int], target: int) -> int:
     return -1
 ```
 
-### [Leetcode 81](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/): Search in Rotated Sorted Array II
+### [Leetcode 81. Search in Rotated Sorted Array II](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/)
 
 Almost the same as last question, now we had duplicates in array, so we need to get rid of the duplicates by a `while` loop, see line 6-7.
 
@@ -175,7 +175,7 @@ def search(self, nums: List[int], target: int) -> bool:
     return False
 ```
 
-### [Leetcode 153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/): Find Minimum in Rotated Sorted Array
+### [Leetcode 153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
 
 ```python
 def findMin(self, nums: List[int]) -> int:
@@ -189,7 +189,7 @@ def findMin(self, nums: List[int]) -> int:
     return nums[low]
 ```
 
-### [Leetcode 154](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/): Find Minimum in Rotated Sorted Array II
+### [Leetcode 154. Find Minimum in Rotated Sorted Array II](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/)
 
 ```python
 def findMin(self, nums: List[int]) -> int:
@@ -207,7 +207,7 @@ def findMin(self, nums: List[int]) -> int:
 
 ## Search 2d Matrix
 
-### [Leetcode 74](https://leetcode.com/problems/search-a-2d-matrix/): Search a 2D Matrix
+### [Leetcode 74. Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix/)
 
 When searching in a 2d matrix, the idea is that: not treat it as a matrix, instead, treat it as a "large" sorted list. The index can be easily calculated with `//` and `%`.
 
@@ -227,7 +227,7 @@ def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
     return False
 ```
 
-### [Leetcode 240](https://leetcode.com/problems/search-a-2d-matrix-ii/): Search a 2D Matrix II
+### [Leetcode 240. Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/)
 
 To be precise, this problem is not a binary search problem. I put it here just because it's the follow question of last one. The idea is this: we start from the right top corner, if target is smaller than current element, then we search for current row. If not, then update row index to next level.
 
@@ -242,4 +242,47 @@ def searchMatrix(self, matrix, target):
         else:
             j -= 1
     return False
+```
+
+## Advanced problems That Uses Binary Search
+
+### [Leetcode 4. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
+> There are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+
+> You may assume nums1 and nums2 cannot be both empty.
+
+**Solution:** For you reference, this solution is adpated from [this post](https://leetcode.com/problems/median-of-two-sorted-arrays/discuss/2481/Share-my-O(log(min(mn)))-solution-with-explanation).
+
+```python
+def findMedianSortedArrays(self, A: List[int], B: List[int]) -> float:
+    m, n = len(A), len(B)
+    if m > n:
+        A, B, m, n = B, A, n, m
+    
+    
+    imin, imax = 0, m
+    half_len = (n + m + 1) // 2
+    while imin <= imax:
+        i = (imin + imax) // 2
+        j = half_len - i
+        
+        if i < m and B[j-1] > A[i]:
+            imin = i + 1
+        elif i > 0 and A[i-1] > B[j]:
+            imax = i - 1
+        else:
+            max_of_left, min_of_right = 0, 0
+            
+            if i == 0: max_of_left = B[j-1]
+            elif j == 0: max_of_left = A[i-1]
+            else: max_of_left = max(A[i-1], B[j-1])
+
+            if (m + n) % 2 == 1:
+                return max_of_left
+
+            if i == m: min_of_right = B[j]
+            elif j == n: min_of_right = A[i]
+            else: min_of_right = min(A[i], B[j])
+
+            return (max_of_left + min_of_right) / 2
 ```

@@ -34,7 +34,7 @@ def subsets(self, nums: List[int]) -> List[List[int]]:
     return res
 ```
 
-## Leetcode 90. Subsets II 
+## [Leetcode 90. Subsets II](https://leetcode.com/problems/subsets-ii/)
 Given a collection of integers that might contain duplicates, nums, return all possible subsets (the power set).
 ```python
 class Solution:
@@ -54,15 +54,15 @@ class Solution:
             temp.pop()
 ```
 
-## Leetcode 46. Permutations
+## [Leetcode 46. Permutations](https://leetcode.com/problems/permutations/)
 Given a collection of distinct integers, return all possible permutations.
 ```python
 
 ```
 
 
-## Leetcode Problems
-[Leetcode 336](https://leetcode.com/problems/find-leaves-of-binary-tree/)
+## [Leetcode 366. Find Leaves of Binary Tree](https://leetcode.com/problems/find-leaves-of-binary-tree/)
+> Given a binary tree, collect a tree's nodes as if you were doing this: Collect and remove all leaves, repeat until the tree is empty.
 ```python
 def findLeaves(self, root: TreeNode) -> List[List[int]]:
     def helper(res, root):
