@@ -1,5 +1,10 @@
 # Interval Problems
 
++ [Leetcode 56. Merge Intervals](https://leetcode.com/problems/merge-intervals/)
++ [Leetcode 252. Meeting Rooms](https://leetcode.com/problems/meeting-rooms/)
++ [Leetcode 253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
++ [Leetcode 435. Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
+
 This artical is a summary of interval related algorithmic problems. This kind of problems can often be solved by `tree-like` data structures (like `priority queue`). I will first provide a general template and we will go through a few examples.
 
 ## Template
@@ -20,7 +25,7 @@ Step 2 would be go through the sorted list, do whatever the problem asks to do (
 
 ```python
 def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-    intervals.sort(key = lambda i: i[0])
+    intervals.sort()
     res = []
     for i in intervals:
         if res and i[0] <= res[-1][1]:
@@ -36,28 +41,31 @@ def merge(self, intervals: List[List[int]]) -> List[List[int]]:
 Solution: the same as the last problem.
 ```python
 def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
-    intervals.sort(key = lambda i : i[0])
+    intervals.sort()
     for i in range(1, len(intervals)):
         if intervals[i][0] < intervals[i - 1][1]:
             return False
     return True
 ```
 
-## [253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
+## [Leetcode 253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
 > Given an array of meeting time intervals consisting of start and end times `[[s1,e1],[s2,e2],...] (si < ei)`, find the minimum number of conference rooms required.
 
-Solution: use a heap to store the `end` time for each interval, if a interval's starting time is greater than the smallest ending time in heap (denoted by `heap[0]`, since the first item in a heap would always be the smallest one), that means this room can be used. Otherwise, we allocate a new room.
+**Solution:** use a heap to store the `end` time for each interval, if an interval's starting time is greater than the smallest ending time in heap (denoted by `heap[0]`, since the first item in a heap would always be the smallest one), that means this room can be used. Otherwise, we allocate a new room.
 
 ```python
-def minMeetingRooms(self, intervals: List[List[int]]) -> int:
-    intervals.sort(key = lambda i: i[0])
-    heap = []
-    for i in intervals:
-        if heap and i[0] >= heap[0]:
-            heapq.heapreplace(heap, i[1])
-        else:
-            heapq.heappush(heap, i[1])
-    return len(heap)
+    def minMeetingRooms(self, intervals):
+        import heapq
+        
+        intervals.sort()
+        heap = []
+        for i in intervals:
+            if heap and i[0] >= heap[0]:
+                heapq.heapreplace(heap, i[1])
+            else:
+                heapq.heappush(heap, i[1])
+
+        return len(heap)
 ```
 
 ## [Leetcode 435. Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
