@@ -13,7 +13,7 @@ This particular problem and most of others can be approached using the following
 ## [Leetcode 53. Maximum Subarray](https://leetcode.com/problems/maximum-subarray/)
 > Given an integer array `nums`, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
-Solution: `dp[i]` denotes the max sum ending at index `i`. If `dp[i - 1]` is negative, then there is no point adding `nums[i]` to it. We can just take `nums[i]` and consider it as the starting point. Otherwise, we add them together, and the result would be the current max value.
+**Solution:** `dp[i]` denotes the max sum ending at index `i`. If `dp[i - 1]` is negative, then there is no point adding `nums[i]` to it. We can just take `nums[i]` and consider it as the starting point. Otherwise, we add them together, and the result would be the current max value.
 
 Recursive relation: `dp[i] = max(dp[i - 1] + nums[i], nums[i])`
 

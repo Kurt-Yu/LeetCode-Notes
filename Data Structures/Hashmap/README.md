@@ -16,3 +16,32 @@ def subarraySum(self, nums: List[int], k: int) -> int:
         count[total] = count.get(total, 0) + 1
     return res
 ```
+
+## [Leetcode 316. Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters/)
+> Given a string which contains only lowercase letters, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.
+
+**Solution:** Using a hashmap to keep track of the frequency of each character. Iterate through the given string, if we find current char is smaller than previous char and the previous char will occur in later substring, then we can safely delete the previous char. What's left in our result string will be the lexicographical smallest substring.
+
+```cpp
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        unordered_map<char, int> count, visited;
+        for (auto c : s) count[c]++;
+        
+        string res = "";
+        for (auto c : s) {
+            count[c]--;
+            if (visited[c]) continue;
+            while (!res.empty() && c < res.back() && count[res.back()] > 0) {
+                visited[res.back()] = 0;
+                res.pop_back();
+            }
+            res += c;
+            visited[c] = 1;
+        }
+        return res;
+    }
+};
+```
+

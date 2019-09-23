@@ -91,6 +91,32 @@ def postorderRecursive(self, root: TreeNode) -> List[int]:
     return res
 ```
 
+C++ version:
+```cpp
+// Defination of a binary tree node:
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+```
+
+```cpp
+// Preorder Iterative
+
+// Preorder Recursive
+
+// Inorder Iterative
+
+// Inorder Recursive
+
+// Postorder Iterative
+
+// Postorder Recursive
+
+```
+
 ## BFS
 
 ```python
@@ -139,14 +165,10 @@ def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
 def letterCombinations(self, digits: str) -> List[str]:
     if not digits: return []
     
-    mapping = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl', '6':'mno', '7':'pqrs', '8':'tuv', '9':'wxyz'}
+    mapping = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
     res = ['']
     for digit in digits:
-        current = []
-        for letter in mapping[digit]:
-            for temp in res:
-                current.append(temp + letter)
-        res = current
+        res = [parent + letter for letter in mapping[digit] for parent in res]
     return res
 ```
 
@@ -164,4 +186,40 @@ def flatten(self, root: TreeNode) -> None:
         node.right, node.left = self.prev, None
         self.prev = node
     postorder(root)
+```
+
+### [Leetcode 173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)
+> Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.
+
+> Calling next() will return the next smallest number in the BST.
+```cpp
+class BSTIterator {
+public:
+    vector<int> vec;
+    vector<int>::iterator it;
+    
+    void inorder(TreeNode* root) {
+        if (root == NULL) return;
+        inorder(root->left);
+        vec.push_back(root->val);
+        inorder(root->right);
+    }
+    
+    BSTIterator(TreeNode* root) {
+        inorder(root);
+        it = vec.begin();
+    }
+    
+    /** @return the next smallest number */
+    int next() {
+        int res = *it;
+        it++;
+        return res;
+    }
+    
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+        return it != vec.end();
+    }
+};
 ```

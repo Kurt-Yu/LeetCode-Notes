@@ -7,16 +7,22 @@ This article contains Palindromic related problems, they can typically be solved
 
 **Method 1:** Non-DP Approach
 ```python
-def longestPalindrome(self, S: str) -> str:
-    res = ""
+def longestPalindrome(self, S):
+    left, right = 0, 0
     for i in range(len(S)):
-        res = max(self.helper(S, i, i), self.helper(S, i, i + 1), res, key = len)
-    return res
-        
-def helper(self, S, left, right):
-    while left >= 0 and right < len(S) and S[left] == S[right]:
-        left, right = left - 1, right + 1
-    return S[left + 1:right]
+        l, r = self.helper(S, i, i)
+        if r - l > right - left: left, right = l, r
+        l, r = self.helper(S, i, i + 1)
+        if r - l > right - left: left, right = l, r
+    return S[left:right + 1]
+    
+    
+    
+def helper(self, S, l, r):
+    while l >= 0 and r < len(S) and S[l] == S[r]:
+        l -= 1
+        r += 1
+    return l + 1, r - 1
 ```
 
 The whole idea is that, we start from some index `i` and then treat it as middle of some palindromic string, extend to both ends to find the longest one. Notice here we used a python trick: `res = max(....,  key = len)`, we give `key = len` as a parameter to `max` function and we are telling `max` to compare the length of parameters. **Time Complexity: O(n)**.

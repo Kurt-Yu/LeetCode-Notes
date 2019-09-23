@@ -2,6 +2,14 @@
 
 This article includes some typical linked list leetcode problems.
 
+*Reverse:*
++ [Leetcode 206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)
++ [Leetcode 234. Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/)
+
+*Merge:*
++ [Leetcode 21. Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/)
++ 
+
 ## Reverse Linked Lists
 ### [Leetcode 206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)
 
